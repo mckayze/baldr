@@ -17,8 +17,15 @@ class CreatePostsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('user_id');
             $table->string('title');
-            $table->string('sub_title')->nullable();
-            $table->longText('content');
+            $table->string('subtitle')->nullable();
+            $table->longText('content')->nullable();
+
+            $table->text('url_slug')->nullable();
+            $table->string('status');
+            $table->dateTime('scheduled_for')->nullable();
+            $table->string('category')->nullable();
+            $table->text('featured_image')->nullable();
+
             $table->string('seo_title')->nullable();
             $table->string('meta_description')->nullable();
             $table->string('meta_keywords')->nullable();

@@ -40,6 +40,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function(){
     Route::get('posts/edit',   'BackendPageController@editPost');
 
     Route::post('posts/all', 'PostController@all');
+    Route::post('posts/create', 'PostController@create');
 
     // Media Manager
     Route::get('media/manager', 'BackendPageController@mediaManager');

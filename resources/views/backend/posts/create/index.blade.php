@@ -33,14 +33,14 @@
                             <div class="row">
                                 <div class="col-6">
                                     <div class="form-group">
-                                        <label for="">Post Title</label>
-                                        <input type="text" class="form-control">
+                                        <label for="">Post Title <span class="text-danger"><strong>*</strong></span></label>
+                                        <input v-model="newPost.title" type="text" class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label for="">Post Subtitle</label>
-                                        <input type="text" class="form-control">
+                                        <input v-model="newPost.subtitle" type="text" class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -50,10 +50,20 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <a @click="createPost" href="javascript:void(0);" class="btn btn-block btn-info">
+                                            Publish Post
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-3">
+                    <!-- Details -->
                     <div class="card">
                         <div class="card-header">
                             <h3>Details</h3>
@@ -61,7 +71,7 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="">URL Slug</label>
-                                <input type="text" class="form-control" placeholder="my-custom-post-slug-2019">
+                                <input v-model="newPost.url_slug" type="text" class="form-control" placeholder="my-custom-post-slug-2019">
                             </div>
                             <div class="form-group">
                                 <label for="">Status</label>
@@ -71,32 +81,41 @@
                                     <option value="draft">Draft</option>
                                     <option value="scheduled">Scheduled</option>
                                 </select>
-
-                 s               <div :class="{ hidden: !isScheduledPost }">
-                                    <br>
-                                    <label>Input DateTime Picker</label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" id="post-date" name="datetime">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text">
-                                                <i class="fa fa-calendar"></i>
-                                            </span>
-                                        </div>
+                            </div>
+                            <div :class="{ hidden: !isScheduledPost, 'form-group': true }">
+                                <label>Scheduled Date</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="post-date" name="datepicker">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">
+                                            <i class="fa fa-calendar"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <br>
+                                <label>Scheduled Time</label>
+                                <div class="input-group">
+                                    <input v-model="newPost.scheduled_time" type="text" class="form-control" id="post-time" name="timepicker">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">
+                                            <i class="fa fa-calendar"></i>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="">Categories</label>
-                                <select name="" id="" class="form-control">
+                                <select v-model="newPost.category" name="" id="" class="form-control">
                                     <option value="" selected disabled>Select a category</option>
-                                    <option value="">Category 1</option>
-                                    <option value="">Category 2</option>
-                                    <option value="">Category 3</option>
-                                    <option value="">Category 4</option>
+                                    <option value="1">Category 1</option>
+                                    <option value="2">Category 2</option>
+                                    <option value="3">Category 3</option>
+                                    <option value="4">Category 4</option>
                                 </select>
-                            </div>not really no we can get things
+                            </div>
                         </div>
                     </div>
+                    <!-- Featured Image -->
                     <div class="card">
                         <div class="card-header">
                             <h3>Featured Image</h3>
@@ -104,7 +123,7 @@
                         <div class="card-body">
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
-                                    <button @click="openMediaModal('featured-image')" class="btn btn-outline-primary" type="button">Choose</button>
+                                    <button click="openMediaModal('featured-image')" class="btn btn-outline-primary" type="button">Choose</button>
                                 </div>
                                 <input v-model="newPost.featured_image" type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1">
                             </div>
@@ -113,6 +132,7 @@
                             </div>
                         </div>
                     </div>
+                    <!-- SEO -->
                     <div class="card">
                         <div class="card-header">
                             <h3>SEO</h3>
@@ -120,15 +140,15 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="">SEO Title</label>
-                                <input type="text" class="form-control" placeholder="my-custom-post-slug-2019">
+                                <input v-model="newPost.seo_title" type="text" class="form-control" placeholder="my-custom-post-slug-2019">
                             </div>
                             <div class="form-group">
                                 <label for="">Meta Keywords</label>
-                                <textarea type="text" class="form-control" placeholder="new,post,idea,games" style="resize: vertical;"></textarea>
+                                <textarea v-model="newPost.meta_keywords" type="text" class="form-control" placeholder="new,post,idea,games" style="resize: vertical;"></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="">Meta Description</label>
-                                <textarea type="text" class="form-control"></textarea>
+                                <textarea v-model="newPost.meta_description" type="text" class="form-control"></textarea>
                             </div>
                         </div>
                     </div>
@@ -148,14 +168,18 @@
                 imageFor: '',
                 loading: false,
                 newPost: {
-                    title:'',
-                    sub_title: '',
-                    content: '',
-                    status: 'draft',
+                    title:'title',
+                    subtitle: 'subtitle',
+                    content: 'content',
+                    url_slug: 'url_slug',
+                    status: 'scheduled',
+                    scheduled_date: moment().format('DD/MM/YYYY'),
+                    scheduled_time: moment().add(1, 'hours').format('HH:mm'),
+                    category: '1',
+                    featured_image: '',
                     seo_title: '',
                     meta_description: '',
                     meta_keywords: '',
-                    featured_image: ''
                 }
             },
             mounted(){
@@ -165,6 +189,9 @@
                 // Core
                 createPost(){
                     this.loading = true;
+
+                    this.newPost.content = $('#summernote').summernote('code');
+
                     axios.post('/admin/posts/create', this.newPost).then((response) => {
                         this.loading = false;
 
@@ -177,14 +204,13 @@
                                 break;
                             case 200:
                                 toastr.success(response.data.statusText);
-
-                                for(let item in this.newPost)
-                                {
-                                    if(item !== 'role')
-                                    {
-                                        this.newPost[item].value = '';
-                                    }
-                                }
+//                                for(let item in this.newPost)
+//                                {
+//                                    if(item !== 'role')
+//                                    {
+//                                        this.newPost[item].value = '';
+//                                    }
+//                                }
                                 break;
                         }
                     });
@@ -248,16 +274,28 @@
                     })
                 },
                 initializeDatetimePicker(){
-//                    $('#datetime').datetimepicker();
+                    let dissun = this;
 
                     $('#post-date').datetimepicker({
-                        format: 'DD/MM/YYYY'
+                        defaultDate: moment(),
+                        format: 'DD/MM/YYYY',
+                        minDate: new Date(),
                     });
                     $('#post-time').datetimepicker({
-                        format: 'HH:mm'
+                        defaultDate: moment().add(1, 'hours'),
+                        format: 'HH:mm',
+                        minDate: new Date(),
+                    });
+
+                    $('#post-date').on('dp.change', function(){
+                        dissun.newPost.scheduled_date = $(this).val();
+                    });
+                    $('#post-time').on('dp.change', function(){
+                        dissun.newPost.scheduled_time = $(this).val();
                     });
                 },
                 openMediaModal(forItem){
+                    console.log('sad');
                     $('#media-manager-modal').modal('show');
                     this.imageFor = forItem;
                 }

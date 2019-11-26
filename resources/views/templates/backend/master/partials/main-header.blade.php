@@ -1,7 +1,7 @@
 <div class="main-header">
     <div class="logo-header" data-background-color="blue">
         <a href="/admin/dashboard" class="logo">
-            <img src="/backend/themes/atlantis/default/img/baldr.png" alt="navbar brand" class="navbar-brand" style="width:100px !important;">
+            <img src="/backend/themes/atlantis/default/img/logo.svg" alt="navbar brand" class="navbar-brand" style="width:100px !important;">
         </a>
 
         <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
