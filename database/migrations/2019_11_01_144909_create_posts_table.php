@@ -16,6 +16,8 @@ class CreatePostsTable extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('user_id');
+            $table->integer('category_id')->default(1);
+
             $table->string('title');
             $table->string('subtitle')->nullable();
             $table->longText('content')->nullable();
@@ -23,7 +25,6 @@ class CreatePostsTable extends Migration
             $table->text('url_slug')->nullable();
             $table->string('status');
             $table->dateTime('scheduled_for')->nullable();
-            $table->string('category')->nullable();
             $table->text('featured_image')->nullable();
 
             $table->string('seo_title')->nullable();

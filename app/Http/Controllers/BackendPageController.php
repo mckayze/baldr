@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\PostCategory;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Request;
 
 class BackendPageController extends Controller
 {
@@ -54,6 +56,26 @@ class BackendPageController extends Controller
     public function createPost()
     {
         return view('backend.posts.create.index');
+    }
+
+    public function editPost()
+    {
+        return view('backend.posts.edit.index');
+    }
+
+    public function postCategories()
+    {
+        return view('backend.posts.categories.all.index');
+    }
+
+    public function createPostCategory()
+    {
+        return view('backend.posts.categories.create.index');
+    }
+
+    public function editPostCategory()
+    {
+        return view('backend.posts.categories.edit.index');
     }
 
     public function mediaManager()

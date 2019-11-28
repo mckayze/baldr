@@ -1,7 +1,7 @@
 @extends('templates.backend.master.index')
 
 @section('head')
-    <title>{{ env('APP_NAME') }} | Create Post</title>
+    <title>{{ env('APP_NAME') }} | Edit Post</title>
     <link rel="stylesheet" href="/css/app.css">
     <style>
         .hidden {
@@ -16,9 +16,9 @@
             <div class="page-inner py-5">
                 <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
                     <div>
-                        <h2 class="text-white pb-2 fw-bold">Create Post</h2>
+                        <h2 class="text-white pb-2 fw-bold">Edit Post</h2>
                         <h5 class="text-white op-7 mb-2">
-                            Create a new post or draft here
+                            Edit an existing post
                         </h5>
                     </div>
                 </div>
@@ -34,13 +34,13 @@
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label for="">Post Title <span class="text-danger"><strong>*</strong></span></label>
-                                        <input v-model="newPost.title" type="text" class="form-control">
+                                        <input v-model="post.title" type="text" class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label for="">Post Subtitle</label>
-                                        <input v-model="newPost.subtitle" type="text" class="form-control">
+                                        <input v-model="post.subtitle" type="text" class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -53,8 +53,8 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <a @click="createPost" href="javascript:void(0);" class="btn btn-block btn-info">
-                                            Publish Post
+                                        <a @click="editPost" href="javascript:void(0);" class="btn btn-block btn-info">
+                                            Save Edits
                                         </a>
                                     </div>
                                 </div>
@@ -71,11 +71,11 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="">URL Slug</label>
-                                <input v-model="newPost.url_slug" type="text" class="form-control" placeholder="my-custom-post-slug-2019">
+                                <input v-model="post.url_slug" type="text" class="form-control" placeholder="my-custom-post-slug-2019">
                             </div>
                             <div class="form-group">
                                 <label for="">Status</label>
-                                <select v-model="newPost.status" name="" id="" class="form-control">
+                                <select v-model="post.status" name="" id="" class="form-control">
                                     <option value="published">Published</option>
                                     <option value="pending">Pending</option>
                                     <option value="draft">Draft</option>
@@ -85,7 +85,7 @@
                             <div :class="{ hidden: !isScheduledPost, 'form-group': true }">
                                 <label>Scheduled Date</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="post-date" name="datepicker">
+                                    <input  v-model="post.scheduled_date" type="text" class="form-control" id="post-date" name="datepicker">
                                     <div class="input-group-append">
                                         <span class="input-group-text">
                                             <i class="fa fa-calendar"></i>
@@ -95,7 +95,7 @@
                                 <br>
                                 <label>Scheduled Time</label>
                                 <div class="input-group">
-                                    <input v-model="newPost.scheduled_time" type="text" class="form-control" id="post-time" name="timepicker">
+                                    <input v-model="post.scheduled_time" type="text" class="form-control" id="post-time" name="timepicker">
                                     <div class="input-group-append">
                                         <span class="input-group-text">
                                             <i class="fa fa-calendar"></i>
@@ -105,7 +105,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="">Categories</label>
-                                <select v-model="newPost.category" name="" id="" class="form-control">
+                                <select v-model="post.category_id" name="" id="" class="form-control">
                                     <option v-for="category in categories" :value="category.id" :selected="category.id === 1">@{{ category.name }}</option>
                                 </select>
                             </div>
@@ -121,10 +121,10 @@
                                 <div class="input-group-prepend">
                                     <button @click="openMediaModal('featured-image')" class="btn btn-outline-primary" type="button">Choose</button>
                                 </div>
-                                <input v-model="newPost.featured_image" type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1">
+                                <input v-model="post.featured_image" type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1">
                             </div>
                             <div class="input-group">
-                                <img :src="newPost.featured_image" alt="" class="img-fluid rounded">
+                                <img :src="post.featured_image" alt="" class="img-fluid rounded">
                             </div>
                         </div>
                     </div>
@@ -136,15 +136,15 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="">SEO Title</label>
-                                <input v-model="newPost.seo_title" type="text" class="form-control" placeholder="my-custom-post-slug-2019">
+                                <input v-model="post.seo_title" type="text" class="form-control" placeholder="my-custom-post-slug-2019">
                             </div>
                             <div class="form-group">
                                 <label for="">Meta Keywords</label>
-                                <textarea v-model="newPost.meta_keywords" type="text" class="form-control" placeholder="new,post,idea,games" style="resize: vertical;"></textarea>
+                                <textarea v-model="post.meta_keywords" type="text" class="form-control" placeholder="new,post,idea,games" style="resize: vertical;"></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="">Meta Description</label>
-                                <textarea v-model="newPost.meta_description" type="text" class="form-control"></textarea>
+                                <textarea v-model="post.meta_description" type="text" class="form-control"></textarea>
                             </div>
                         </div>
                     </div>
@@ -165,37 +165,24 @@
             data: {
                 imageFor: '',
                 loading: false,
-                newPost: {
-                    title:'',
-                    subtitle: '',
-                    content: '',
-                    url_slug: '',
-                    status: 'draft',
-                    scheduled_date: moment().format('DD/MM/YYYY'),
-                    scheduled_time: moment().add(1, 'hours').format('HH:mm'),
-                    category: '1',
-                    featured_image: '',
-                    seo_title: '',
-                    meta_description: '',
-                    meta_keywords: '',
-                },
+                post: {},
                 categories: []
             },
             mounted(){
-                this.initializeSummernote();
                 this.getData();
             },
             methods: {
                 // Core
                 getData(){
                     this.getCategories();
+                    this.getPost();
                 },
-                createPost(){
+                editPost(){
                     this.loading = true;
 
-                    this.newPost.content = $('#summernote').summernote('code');
+                    this.post.content = $('#summernote').summernote('code');
 
-                    axios.post('/admin/posts/create', this.newPost).then((response) => {
+                    axios.post('/admin/posts/edit', this.post).then((response) => {
                         this.loading = false;
 
                         switch(response.data.status){
@@ -227,9 +214,27 @@
                             $('#summernote').summernote('insertImage', item.path.replace('public/', '/storage/'), item.name);
                             break;
                         case 'featured-image':
-                            this.newPost.featured_image = item.path.replace('public/', '/storage/');
+                            this.post.featured_image = item.path.replace('public/', '/storage/');
                             break;
                     }
+                },
+                getPost(){
+                    let data = {
+                        id: '{{ Request::get('id') }}'
+                    };
+
+                    axios.post('/admin/posts/get', data).then((response) => {
+                        this.post = response.data;
+                    });
+
+                    setTimeout(() => {
+                        this.initializeSummernote();
+                    })
+                },
+                getCategories(){
+                    axios.post('/admin/posts/categories/all').then((response) => {
+                        this.categories = response.data;
+                    });
                 },
 
                 // Helpers
@@ -254,7 +259,7 @@
                     };
 
                     $('#summernote').summernote({
-                        height: '250px',
+                        height: '650px',
                         toolbar: [
                             ['style', ['style']],
                             ['font', ['bold', 'underline', 'clear']],
@@ -273,6 +278,7 @@
                     });
 
                     setTimeout(() => {
+                        $('#summernote').summernote('code', this.post.content);
                         this.initializeDatetimePicker();
                     })
                 },
@@ -283,34 +289,27 @@
                     $('#post-date').datetimepicker({
                         defaultDate: moment(),
                         format: 'DD/MM/YYYY',
-                        minDate: new Date(),
                     });
                     $('#post-time').datetimepicker({
                         defaultDate: time,
                         format: 'HH:mm',
-                        minDate: new Date(),
                     });
 
                     $('#post-date').on('dp.change', function(){
-                        dissun.newPost.scheduled_date = $(this).val();
+                        dissun.post.scheduled_date = $(this).val();
                     });
                     $('#post-time').on('dp.change', function(){
-                        dissun.newPost.scheduled_time = $(this).val();
+                        dissun.post.scheduled_time = $(this).val();
                     });
                 },
                 openMediaModal(forItem){
                     $('#media-manager-modal').modal('show');
                     this.imageFor = forItem;
                 },
-                getCategories(){
-                    axios.post('/admin/posts/categories/all').then((response) => {
-                        this.categories = response.data;
-                    });
-                },
             },
             computed: {
                 isScheduledPost(){
-                    return this.newPost.status === 'scheduled';
+                    return this.post.status === 'scheduled';
                 }
             }
         })

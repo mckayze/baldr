@@ -51,6 +51,7 @@
                                             <th>User</th>
                                             <th>Category</th>
                                             <th>Status</th>
+                                            <th>Scheduled For</th>
                                             @can('Edit Posts')
                                             <th>Actions</th>
                                             @endcan
@@ -64,8 +65,9 @@
                                             <td>@{{ post.title }}</td>
                                             <td>@{{ post.subtitle }}</td>
                                             <td>@{{ post.user.name }}</td>
-                                            <td>@{{ post.category }}</td>
+                                            <td>@{{ post.category.name }}</td>
                                             <td>@{{ post.status }}</td>
+                                            <td>@{{ (post.scheduled_for !== null) ? moment(post.scheduled_for).format('D MMMM HH:MM') : 'Not Scheduled' }}</td>
                                             @can('Edit Posts')
                                             <td>
                                                 <a :href="'/admin/posts/edit?id='+post.id" class="btn btn-warning">
@@ -107,6 +109,7 @@
                 // Core
                 getPosts(){
                     axios.post('/admin/posts/all').then((response) => {
+                        console.log(response.data);
                         this.posts = response.data;
                         setTimeout(() => {
                             this.initDatatable();

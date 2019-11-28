@@ -39,8 +39,22 @@ Route::middleware(['auth'])->prefix('admin')->group(function(){
     Route::get('posts/create', 'BackendPageController@createPost');
     Route::get('posts/edit',   'BackendPageController@editPost');
 
-    Route::post('posts/all', 'PostController@all');
+    Route::post('posts/all',    'PostController@all');
+    Route::post('posts/get',    'PostController@get');
     Route::post('posts/create', 'PostController@create');
+    Route::post('posts/edit',   'PostController@edit');
+    Route::post('posts/delete', 'PostController@delete');
+
+    // Post Categories
+    Route::get('posts/categories',        'BackendPageController@postCategories');
+    Route::get('posts/categories/create', 'BackendPageController@createPostCategory');
+    Route::get('posts/categories/edit',   'BackendPageController@editPostCategory');
+
+    Route::post('posts/categories/all',    'PostCategoryController@all');
+    Route::post('posts/categories/get',    'PostCategoryController@get');
+    Route::post('posts/categories/create', 'PostCategoryController@create');
+    Route::post('posts/categories/edit',   'PostCategoryController@edit');
+    Route::post('posts/categories/delete', 'PostCategoryController@delete');
 
     // Media Manager
     Route::get('media/manager', 'BackendPageController@mediaManager');

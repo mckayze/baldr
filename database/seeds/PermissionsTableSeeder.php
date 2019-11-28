@@ -42,7 +42,7 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'View Media Manager', 'for' => 'media']);
 
         /**
-         * Posts
+         * Posts / Categories
          */
         Permission::create(['name' => 'View All Posts Page', 'for' => 'posts']);
         Permission::create(['name' => 'Create Posts', 'for' => 'posts']);
@@ -50,5 +50,11 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'See Pending Posts', 'for' => 'posts']);
         Permission::create(['name' => 'Edit Posts', 'for' => 'posts']);
         Permission::create(['name' => 'Delete Posts', 'for' => 'posts']);
+
+        Permission::create(['name' => 'View Post Categories', 'for' => 'posts']);
+        Permission::create(['name' => 'Create Post Categories', 'for' => 'posts']);
+        Permission::create(['name' => 'Edit Post Categories', 'for' => 'posts']);
+        Permission::create(['name' => 'Delete Post Categories', 'for' => 'posts']);
+
     }
 }

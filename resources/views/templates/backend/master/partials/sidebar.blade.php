@@ -147,6 +147,81 @@
                                         </a>
                                     </li>
                                 @endcan
+                                @can('View Post Categories')
+                                    <li class="{{ Request::is('admin/posts/categories') ? 'active' : '' }}">
+                                        <a href="/admin/posts/categories">
+                                            <span class="sub-item">Categories</span>
+                                        </a>
+                                    </li>
+                                @endcan
+                            </ul>
+                        </div>
+                    </li>
+                @endcan
+                @can('View All Commerce Page')
+                    <li class="nav-item {{ Request::is('admin/commerce/*') ? 'active submenu' : '' }}">
+                        <a data-toggle="collapse" href="#commercepages" @if(Request::is('admin/roles/*')) aria-expanded="true" @endif>
+                            <i class="fas fa-shopping-cart"></i>
+                            <p>Commerce</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse {{ Request::is('admin/commerce/*') ? 'show' : '' }}" id="commercepages">
+                            <ul class="nav nav-collapse">
+                                @can('View All Commerce Page')
+                                    <li class="{{ Request::is('admin/commerce/all') ? 'active' : '' }}">
+                                        <a href="/admin/commerce/all">
+                                            <span class="sub-item">All</span>
+                                        </a>
+                                    </li>
+                                @endcan
+                                @can('Create Product')
+                                    <li class="{{ Request::is('admin/commerce/create') ? 'active' : '' }}">
+                                        <a href="/admin/commerce/create">
+                                            <span class="sub-item">Create</span>
+                                        </a>
+                                    </li>
+                                @endcan
+                                @can('View Product Categories')
+                                    <li class="{{ Request::is('admin/commerce/categories') ? 'active' : '' }}">
+                                        <a href="/admin/commerce/categories">
+                                            <span class="sub-item">Categories</span>
+                                        </a>
+                                    </li>
+                                @endcan
+                            </ul>
+                        </div>
+                    </li>
+                @endcan
+                @can('View All Products Page')
+                    <li class="nav-item {{ Request::is('admin/products/*') ? 'active submenu' : '' }}">
+                        <a data-toggle="collapse" href="#productspages" @if(Request::is('admin/roles/*')) aria-expanded="true" @endif>
+                            <i class="fas fa-box"></i>
+                            <p>Products</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse {{ Request::is('admin/products/*') ? 'show' : '' }}" id="productspages">
+                            <ul class="nav nav-collapse">
+                                @can('View All Products Page')
+                                    <li class="{{ Request::is('admin/products/all') ? 'active' : '' }}">
+                                        <a href="/admin/posts/all">
+                                            <span class="sub-item">All</span>
+                                        </a>
+                                    </li>
+                                @endcan
+                                @can('Create Product')
+                                    <li class="{{ Request::is('admin/products/create') ? 'active' : '' }}">
+                                        <a href="/admin/posts/create">
+                                            <span class="sub-item">Create</span>
+                                        </a>
+                                    </li>
+                                @endcan
+                                @can('View Product Categories')
+                                    <li class="{{ Request::is('admin/products/categories') ? 'active' : '' }}">
+                                        <a href="/admin/posts/categories">
+                                            <span class="sub-item">Categories</span>
+                                        </a>
+                                    </li>
+                                @endcan
                             </ul>
                         </div>
                     </li>
