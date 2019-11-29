@@ -167,24 +167,31 @@
                         </a>
                         <div class="collapse {{ Request::is('admin/commerce/*') ? 'show' : '' }}" id="commercepages">
                             <ul class="nav nav-collapse">
-                                @can('View All Commerce Page')
+                                @can('View All Commerce Orders')
                                     <li class="{{ Request::is('admin/commerce/all') ? 'active' : '' }}">
-                                        <a href="/admin/commerce/all">
-                                            <span class="sub-item">All</span>
+                                        <a href="/admin/commerce/orders">
+                                            <span class="sub-item">Orders</span>
                                         </a>
                                     </li>
                                 @endcan
-                                @can('Create Product')
+                                @can('Create Commerce Coupons')
                                     <li class="{{ Request::is('admin/commerce/create') ? 'active' : '' }}">
-                                        <a href="/admin/commerce/create">
-                                            <span class="sub-item">Create</span>
+                                        <a href="/admin/commerce/coupons/create">
+                                            <span class="sub-item">Coupons</span>
                                         </a>
                                     </li>
                                 @endcan
-                                @can('View Product Categories')
+                                @can('View Commerce Reports')
                                     <li class="{{ Request::is('admin/commerce/categories') ? 'active' : '' }}">
-                                        <a href="/admin/commerce/categories">
-                                            <span class="sub-item">Categories</span>
+                                        <a href="/admin/commerce/reports">
+                                            <span class="sub-item">Reports</span>
+                                        </a>
+                                    </li>
+                                @endcan
+                                @can('View Commerce Settings')
+                                    <li class="{{ Request::is('admin/commerce/categories') ? 'active' : '' }}">
+                                        <a href="/admin/commerce/settings">
+                                            <span class="sub-item">Settings</span>
                                         </a>
                                     </li>
                                 @endcan
@@ -212,6 +219,13 @@
                                     <li class="{{ Request::is('admin/products/create') ? 'active' : '' }}">
                                         <a href="/admin/posts/create">
                                             <span class="sub-item">Create</span>
+                                        </a>
+                                    </li>
+                                @endcan
+                                @can('Create Product')
+                                    <li class="{{ Request::is('admin/products/create') ? 'active' : '' }}">
+                                        <a href="/admin/posts/create">
+                                            <span class="sub-item">Bundles</span>
                                         </a>
                                     </li>
                                 @endcan
